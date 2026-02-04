@@ -40,9 +40,17 @@ jobs:
         run: |
           python - <<'PY'
           from cnn_end_to_end import SimpleCNN
+          from rnn_end_to_end import SimpleRNN
           import torch
+          # CNN smoke
           m = SimpleCNN(10)
           x = torch.randn(2, 3, 128, 128)
           y = m(x)
-          print('smoke output shape:', y.shape)
+          print('cnn smoke output shape:', y.shape)
+          # RNN smoke
+          r = SimpleRNN(vocab_size=10, num_classes=3)
+          xr = torch.randint(0, 10, (2, 20), dtype=torch.long)
+          lengths = torch.tensor([20, 20], dtype=torch.long)
+          yr = r(xr, lengths)
+          print('rnn smoke output shape:', yr.shape)
           PY
